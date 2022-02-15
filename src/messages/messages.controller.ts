@@ -40,7 +40,9 @@ export class MessagesController {
     @Param('id', ParseIntPipe) id: number,
     @Body() messageDTO: MessageDTO,
   ) {
-    return this.messagesService.update(id, messageDTO);
+    return this.messagesService.update(id, messageDTO).catch((e) => {
+      throw new NotFoundException(e.message);
+    });
   }
 
   @Delete(':id')
