@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-
-type Message = {
-  id: number;
-  name: string;
-  lastName?: string;
-};
+import { Message } from './message';
 
 @Injectable()
 export class MessagesService {
@@ -25,5 +20,9 @@ export class MessagesService {
 
   findById(id: number) {
     return this.messages.find((message) => message.id === id);
+  }
+
+  create(message: Message) {
+    this.messages.push(message);
   }
 }
