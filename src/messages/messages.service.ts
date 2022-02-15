@@ -20,8 +20,10 @@ export class MessagesService {
   }
 
   async findById(id: number): Promise<Message> {
-    const message = this.messages.find((msg) => msg.id === id);
+    const message = this.messages.find((msg) => msg?.id === id);
+
     if (!message) throw new Error(`Message not found with ID: ${id}`);
+
     return message;
   }
 
@@ -37,9 +39,9 @@ export class MessagesService {
   }
 
   async update(id: number, messageDTO: MessageDTO) {
-    const idx = this.messages.findIndex((msg) => msg.id === id);
+    const idx = this.messages.findIndex((msg) => msg?.id === id);
 
-    if (idx === -1) throw new Error(`Message Not Found with ID: ${id}`);
+    if (idx < 0) throw new Error(`Message Not Found with ID: ${id}`);
 
     const message: Message = {
       id,
@@ -51,9 +53,13 @@ export class MessagesService {
     return this.messages;
   }
 
-  deleteById(id: number) {
-    const msgIdx = this.messages.findIndex((message) => message.id === id);
-    delete this.messages[msgIdx];
-    return true;
+  async deleteById(id: number) {
+    const idx = this.messages.findIndex((message) => message?.id === id);
+
+    if (idx < 0) throw new Error(`Message Not Found with ID: ${id}`);
+
+    delete this.messages[idx];
+
+    return this.messages;
   }
 }
