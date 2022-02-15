@@ -1,3 +1,4 @@
+import { MessageDTO } from './message.dto';
 import { MessagesService } from './messages.service';
 import {
   Body,
@@ -30,13 +31,16 @@ export class MessagesController {
   }
 
   @Post()
-  create(@Body() body: Message) {
-    return this.messagesService.create(body);
+  create(@Body() message: MessageDTO) {
+    return this.messagesService.create(message);
   }
 
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() message: Message) {
-    return this.messagesService.update(id, message);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() messageDTO: MessageDTO,
+  ) {
+    return this.messagesService.update(id, messageDTO);
   }
 
   @Delete(':id')

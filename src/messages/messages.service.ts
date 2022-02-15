@@ -1,5 +1,6 @@
-import { HttpCode, Injectable, NotFoundException } from '@nestjs/common';
+import { MessageDTO } from './message.dto';
 import { Message } from './message';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MessagesService {
@@ -24,14 +25,28 @@ export class MessagesService {
     return message;
   }
 
-  create(message: Message) {
+  create(messageDTO: MessageDTO) {
+    const id = this.messages.length + 1;
+
+    const message: Message = {
+      id,
+      ...messageDTO,
+    };
     this.messages.push(message);
+    return this.messages;
   }
 
-  update(id: number, message: Message): Promise<Message> {
-    const index = this.messages.findIndex((msg) => msg.id === id);
-    this.messages[index] = message;
-    return message[index];
+  update(id: number, messageDTO: MessageDTO) {
+    const idx = this.messages.findIndex((msg) => msg.id === id);
+
+    const message: Message = {
+      id,
+      ...messageDTO,
+    };
+
+    this.messages[idx] = message;
+
+    return this.messages;
   }
 
   deleteById(id: number) {
