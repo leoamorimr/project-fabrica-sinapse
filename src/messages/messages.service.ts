@@ -58,7 +58,7 @@ export class MessagesService {
 
     if (idx < 0) throw new Error(`Message Not Found with ID: ${id}`);
 
-    delete this.messages[idx];
+    this.messages.splice(idx, 1);
 
     return this.messages;
   }
